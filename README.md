@@ -1,10 +1,5 @@
 # Mich Random Port - VPN & CDN Port Generator
 
-![Mich Random Port Preview](https://img.shields.io/badge/Mich-Random%20Port-blue)
-![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)
-![HTML CSS JavaScript](https://img.shields.io/badge/HTML-CSS-JavaScript-yellow)
-![Single File](https://img.shields.io/badge/Single-File%20Application-green)
-
 A modern, single-file web application for generating random ports optimized for VPN, HTTP, HTTPS, and CDN/proxy services like Cloudflare, Fastly, and G-Core.
 
 ## 🌐 Live Demo
