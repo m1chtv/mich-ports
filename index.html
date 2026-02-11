@@ -1,0 +1,1097 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mich Random Port - CDN/Proxy Port Generator</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #3a86ff;
+        --secondary-color: #8338ec;
+        --dark-color: #1a1a2e;
+        --light-color: #f8f9fa;
+        --success-color: #38b000;
+        --warning-color: #ff9e00;
+        --danger-color: #e63946;
+        --http-color: #ff9e00;
+        --https-color: #38b000;
+        --cdn-color: #8a2be2;
+        --border-radius: 12px;
+        --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: var(--light-color);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 15px;
+      }
+
+      .logo-icon {
+        font-size: 2.8rem;
+        color: var(--primary-color);
+      }
+
+      h1 {
+        font-size: 2.8rem;
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 10px;
+      }
+
+      .tagline {
+        font-size: 1.2rem;
+        color: #a9d6e5;
+        max-width: 600px;
+        margin: 0 auto 20px;
+      }
+
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 768px) {
+        .main-content {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .generator-box {
+        background: rgba(26, 26, 46, 0.8);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+        border: 1px solid rgba(58, 134, 255, 0.2);
+      }
+
+      .generator-box h2 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .generator-box h2 i {
+        font-size: 1.6rem;
+      }
+
+      .port-display {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        text-align: center;
+        margin-bottom: 25px;
+        border: 2px dashed rgba(58, 134, 255, 0.3);
+      }
+
+      .port-number {
+        font-size: 4.5rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        text-shadow: 0 0 15px rgba(58, 134, 255, 0.5);
+        margin: 10px 0;
+        letter-spacing: 2px;
+      }
+
+      .port-type-badge {
+        display: inline-block;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+
+      .badge-vpn {
+        background-color: rgba(58, 134, 255, 0.2);
+        color: var(--primary-color);
+        border: 1px solid rgba(58, 134, 255, 0.4);
+      }
+
+      .badge-https {
+        background-color: rgba(56, 176, 0, 0.2);
+        color: var(--https-color);
+        border: 1px solid rgba(56, 176, 0, 0.4);
+      }
+
+      .badge-http {
+        background-color: rgba(255, 158, 0, 0.2);
+        color: var(--http-color);
+        border: 1px solid rgba(255, 158, 0, 0.4);
+      }
+
+      .badge-cdn {
+        background-color: rgba(138, 43, 226, 0.2);
+        color: var(--cdn-color);
+        border: 1px solid rgba(138, 43, 226, 0.4);
+      }
+
+      .port-status {
+        font-size: 1.2rem;
+        color: var(--success-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      button {
+        padding: 14px 24px;
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .generate-btn {
+        background: linear-gradient(
+          to right,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        flex: 1;
+      }
+
+      .generate-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(58, 134, 255, 0.3);
+      }
+
+      .copy-btn {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+
+      .copy-btn.copied {
+        background-color: var(--success-color);
+        color: white;
+      }
+
+      .options {
+        margin-top: 25px;
+      }
+
+      .option-group {
+        margin-bottom: 25px;
+      }
+
+      .option-group h3 {
+        color: #a9d6e5;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .port-type-selector {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-bottom: 20px;
+      }
+
+      .port-type-btn {
+        flex: 1;
+        min-width: 140px;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: var(--border-radius);
+        color: #a9d6e5;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .port-type-btn:hover {
+        background: rgba(58, 134, 255, 0.1);
+        border-color: rgba(58, 134, 255, 0.3);
+      }
+
+      .port-type-btn.active {
+        background: rgba(58, 134, 255, 0.2);
+        border-color: var(--primary-color);
+        color: white;
+      }
+
+      .port-type-btn.https-active {
+        background: rgba(56, 176, 0, 0.2);
+        border-color: var(--https-color);
+        color: white;
+      }
+
+      .port-type-btn.http-active {
+        background: rgba(255, 158, 0, 0.2);
+        border-color: var(--http-color);
+        color: white;
+      }
+
+      .port-type-btn.cdn-active {
+        background: rgba(138, 43, 226, 0.2);
+        border-color: var(--cdn-color);
+        color: white;
+      }
+
+      .port-type-btn i {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      .cdn-provider-selector {
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+        border-left: 3px solid var(--cdn-color);
+      }
+
+      .cdn-provider-selector h4 {
+        color: #a9d6e5;
+        margin-bottom: 10px;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cdn-providers {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .cdn-provider-btn {
+        padding: 8px 15px;
+        background: rgba(138, 43, 226, 0.1);
+        border: 1px solid rgba(138, 43, 226, 0.3);
+        border-radius: 6px;
+        color: #a9d6e5;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+      }
+
+      .cdn-provider-btn:hover {
+        background: rgba(138, 43, 226, 0.2);
+        border-color: var(--cdn-color);
+      }
+
+      .cdn-provider-btn.active {
+        background: rgba(138, 43, 226, 0.3);
+        border-color: var(--cdn-color);
+        color: white;
+      }
+
+      .checkbox-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+      }
+
+      @media (max-width: 576px) {
+        .checkbox-options {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .checkbox-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 15px;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+      }
+
+      .checkbox-option input {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .checkbox-option label {
+        cursor: pointer;
+        color: #a9d6e5;
+        font-weight: 500;
+      }
+
+      .info-box {
+        background: rgba(26, 26, 46, 0.8);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+        border-left: 4px solid var(--primary-color);
+      }
+
+      .info-box h2 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .info-item {
+        margin-bottom: 25px;
+      }
+
+      .info-item h3 {
+        color: #a9d6e5;
+        margin-bottom: 8px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .info-item p {
+        color: #b8c7d6;
+        line-height: 1.6;
+      }
+
+      .port-type-info {
+        display: flex;
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .port-type-detail {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 15px;
+        border-radius: 8px;
+        border-top: 3px solid;
+      }
+
+      .port-type-detail.https {
+        border-top-color: var(--https-color);
+      }
+
+      .port-type-detail.http {
+        border-top-color: var(--http-color);
+      }
+
+      .port-type-detail.vpn {
+        border-top-color: var(--primary-color);
+      }
+
+      .port-type-detail.cdn {
+        border-top-color: var(--cdn-color);
+      }
+
+      .port-type-detail h4 {
+        font-size: 1rem;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cdn-port-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .cdn-port-item {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        font-family: monospace;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        transition: all 0.2s ease;
+      }
+
+      .cdn-port-item:hover {
+        background: rgba(138, 43, 226, 0.2);
+        border-color: var(--cdn-color);
+      }
+
+      .cdn-provider-tag {
+        font-size: 0.7rem;
+        color: #a9d6e5;
+        margin-top: 3px;
+      }
+
+      .history-box {
+        background: rgba(26, 26, 46, 0.8);
+        border-radius: var(--border-radius);
+        padding: 30px;
+        box-shadow: var(--box-shadow);
+        margin-top: 40px;
+      }
+
+      .history-box h2 {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        font-size: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .history-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .history-item {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-family: monospace;
+        font-size: 1.2rem;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .history-item.recent {
+        border-color: var(--primary-color);
+        background: rgba(58, 134, 255, 0.1);
+      }
+
+      .history-badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-weight: 600;
+      }
+
+      .badge-history-vpn {
+        background-color: rgba(58, 134, 255, 0.2);
+        color: var(--primary-color);
+      }
+
+      .badge-history-https {
+        background-color: rgba(56, 176, 0, 0.2);
+        color: var(--https-color);
+      }
+
+      .badge-history-http {
+        background-color: rgba(255, 158, 0, 0.2);
+        color: var(--http-color);
+      }
+
+      .badge-history-cdn {
+        background-color: rgba(138, 43, 226, 0.2);
+        color: var(--cdn-color);
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 50px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: #a9d6e5;
+        font-size: 0.9rem;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse {
+        animation: pulse 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="logo">
+          <i class="fas fa-cloud logo-icon"></i>
+          <h1>Mich Random Port</h1>
+        </div>
+        <p class="tagline">
+          Generate random ports for VPN, HTTP, HTTPS, and CDN/proxy services
+          like Cloudflare, Fastly, and G-Core.
+        </p>
+      </header>
+
+      <div class="main-content">
+        <div class="generator-box">
+          <h2><i class="fas fa-random"></i> CDN/Proxy Port Generator</h2>
+
+          <div class="port-display">
+            <p>Your Random Port:</p>
+            <div class="port-number" id="portDisplay">443</div>
+            <div class="port-type-badge badge-https" id="portTypeBadge">
+              CDN/Proxy Port
+            </div>
+            <div class="port-status" id="portStatus">
+              <i class="fas fa-check-circle"></i>
+              <span>Cloudflare HTTPS Port</span>
+            </div>
+          </div>
+
+          <div class="controls">
+            <button class="generate-btn" id="generateBtn">
+              <i class="fas fa-bolt"></i>
+              Generate New Port
+            </button>
+            <button class="copy-btn" id="copyBtn">
+              <i class="far fa-copy"></i>
+              Copy Port
+            </button>
+          </div>
+
+          <div class="options">
+            <div class="option-group">
+              <h3><i class="fas fa-filter"></i> Port Type</h3>
+              <div class="port-type-selector">
+                <div class="port-type-btn" id="vpnPortBtn">
+                  <i class="fas fa-shield-alt"></i>
+                  <div>VPN Port</div>
+                  <small>VPN connections</small>
+                </div>
+                <div class="port-type-btn active" id="cdnPortBtn">
+                  <i class="fas fa-cloud"></i>
+                  <div>CDN/Proxy</div>
+                  <small>Cloudflare, Fastly, etc.</small>
+                </div>
+              </div>
+
+              <div class="cdn-provider-selector" id="cdnProviderSelector">
+                <h4><i class="fas fa-server"></i> CDN/Proxy Provider</h4>
+                <div class="cdn-providers" id="cdnProviders">
+                  <!-- CDN provider buttons will be added by JavaScript -->
+                </div>
+              </div>
+            </div>
+
+            <div class="option-group">
+              <h3><i class="fas fa-cog"></i> Generation Options</h3>
+              <div class="checkbox-options">
+                <div class="checkbox-option">
+                  <input type="checkbox" id="preferCommonPorts" checked />
+                  <label for="preferCommonPorts">Prefer common CDN ports</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" id="avoidStandardPorts" />
+                  <label for="avoidStandardPorts">Avoid standard 80/443</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" id="includeAltPorts" checked />
+                  <label for="includeAltPorts">Include alternative ports</label>
+                </div>
+                <div class="checkbox-option">
+                  <input type="checkbox" id="useAnyPort" />
+                  <label for="useAnyPort">Use any available port</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="info-box">
+          <h2><i class="fas fa-info-circle"></i> CDN/Proxy Port Information</h2>
+
+          <div class="info-item">
+            <h3><i class="fas fa-cloud"></i> CDN/Proxy Ports Explained</h3>
+            <p>
+              CDN and proxy services use specific ports for routing traffic.
+              Common ports include:
+            </p>
+
+            <div class="cdn-port-list" id="cdnPortsList"></div>
+          </div>
+
+          <div class="info-item">
+            <h3>
+              <i class="fas fa-network-wired"></i> Common CDN/Proxy Providers
+            </h3>
+            <div class="port-type-info">
+              <div class="port-type-detail cdn">
+                <h4><i class="fas fa-cloud"></i> Cloudflare</h4>
+                <p>Ports: 80, 443, 2053, 2083, 2087, 2096, 8443</p>
+                <p>Also supports custom ports for Spectrum</p>
+              </div>
+              <div class="port-type-detail cdn">
+                <h4><i class="fas fa-bolt"></i> Fastly</h4>
+                <p>Ports: 80, 443, 8080, 8443</p>
+                <p>Supports custom origins on various ports</p>
+              </div>
+              <div class="port-type-detail cdn">
+                <h4><i class="fas fa-server"></i> G-Core</h4>
+                <p>Ports: 80, 443, 8080, 8443</p>
+                <p>Custom ports for load balancing</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <h3><i class="fas fa-lightbulb"></i> Usage Tips</h3>
+            <p>
+              CDN/Proxy ports are typically used for web traffic routing, DDoS
+              protection, and content acceleration. Using CDN-specific ports can
+              help optimize traffic routing and improve security.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="history-box">
+        <h2><i class="fas fa-history"></i> Recently Generated Ports</h2>
+        <div class="history-list" id="historyList"></div>
+      </div>
+
+      <footer>
+        <p>
+          Mich Random Port Generator &copy; 2026 | Generate ports for CDN/Proxy
+          services like Cloudflare, Fastly, G-Core
+        </p>
+        <p>
+          This tool generates random port numbers for CDN, proxy, and VPN
+          configuration purposes.
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      const portDisplay = document.getElementById("portDisplay");
+      const portTypeBadge = document.getElementById("portTypeBadge");
+      const portStatus = document.getElementById("portStatus");
+      const generateBtn = document.getElementById("generateBtn");
+      const copyBtn = document.getElementById("copyBtn");
+      const vpnPortBtn = document.getElementById("vpnPortBtn");
+      const cdnPortBtn = document.getElementById("cdnPortBtn");
+      const cdnProviderSelector = document.getElementById(
+        "cdnProviderSelector",
+      );
+      const cdnProviders = document.getElementById("cdnProviders");
+      const cdnPortsList = document.getElementById("cdnPortsList");
+      const preferCommonPorts = document.getElementById("preferCommonPorts");
+      const avoidStandardPorts = document.getElementById("avoidStandardPorts");
+      const includeAltPorts = document.getElementById("includeAltPorts");
+      const useAnyPort = document.getElementById("useAnyPort");
+      const historyList = document.getElementById("historyList");
+
+      const cdnProvidersData = {
+        cloudflare: {
+          name: "Cloudflare",
+          ports: [80, 443, 2053, 2083, 2087, 2096, 8443],
+          altPorts: [8080, 8880, 2052, 2082, 2086, 2095, 8443],
+          description: "CDN, DDoS protection, DNS",
+        },
+        fastly: {
+          name: "Fastly",
+          ports: [80, 443, 8080, 8443],
+          altPorts: [8081, 8444, 9443],
+          description: "Edge cloud platform",
+        },
+        gcore: {
+          name: "G-Core",
+          ports: [80, 443, 8080, 8443],
+          altPorts: [8081, 8444, 9443],
+          description: "CDN and cloud services",
+        },
+        akamai: {
+          name: "Akamai",
+          ports: [80, 443, 8080, 8443],
+          altPorts: [8081, 8444, 9443],
+          description: "Content delivery network",
+        },
+        cloudfront: {
+          name: "CloudFront",
+          ports: [80, 443, 8080, 8443],
+          altPorts: [8081, 8444, 9443],
+          description: "AWS content delivery",
+        },
+        bunny: {
+          name: "Bunny CDN",
+          ports: [80, 443, 8080, 8443],
+          altPorts: [8081, 8444, 9443],
+          description: "Optimized CDN",
+        },
+        all: {
+          name: "All CDNs",
+          ports: [80, 443, 8080, 8443, 2053, 2083, 2087, 2096],
+          altPorts: [8081, 8444, 9443, 2052, 2082, 2086, 2095],
+          description: "All CDN/proxy services",
+        },
+      };
+
+      const commonVpnPorts = [1194, 1723, 1701, 4500, 500, 5500, 51820];
+
+      let portHistory = [];
+
+      let currentPortType = "cdn";
+      let currentCdnProvider = "cloudflare";
+
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeCdnProviders();
+        generateRandomPort();
+        loadHistory();
+        setupEventListeners();
+      });
+
+      function initializeCdnProviders() {
+        cdnProviders.innerHTML = "";
+
+        for (const [key, provider] of Object.entries(cdnProvidersData)) {
+          const providerBtn = document.createElement("div");
+          providerBtn.className = `cdn-provider-btn ${key === "cloudflare" ? "active" : ""}`;
+          providerBtn.textContent = provider.name;
+          providerBtn.dataset.provider = key;
+
+          providerBtn.addEventListener("click", () => {
+            document.querySelectorAll(".cdn-provider-btn").forEach((btn) => {
+              btn.classList.remove("active");
+            });
+            providerBtn.classList.add("active");
+            currentCdnProvider = key;
+
+            generateRandomPort();
+          });
+
+          cdnProviders.appendChild(providerBtn);
+        }
+
+        updateCdnPortsList();
+      }
+
+      function updateCdnPortsList() {
+        cdnPortsList.innerHTML = "";
+        const provider = cdnProvidersData[currentCdnProvider];
+
+        provider.ports.forEach((port) => {
+          const portItem = document.createElement("div");
+          portItem.className = "cdn-port-item";
+          portItem.innerHTML = `
+                    <div>${port}</div>
+                    <div class="cdn-provider-tag">${provider.name}</div>
+                `;
+          portItem.addEventListener("click", () => {
+            portDisplay.textContent = port;
+            updatePortBadge(port);
+            updatePortStatus(port);
+            addToHistory(port, currentPortType, currentCdnProvider);
+          });
+          cdnPortsList.appendChild(portItem);
+        });
+      }
+
+      function setupEventListeners() {
+        vpnPortBtn.addEventListener("click", () => setPortType("vpn"));
+        cdnPortBtn.addEventListener("click", () => setPortType("cdn"));
+
+        generateBtn.addEventListener("click", generateRandomPort);
+        copyBtn.addEventListener("click", copyToClipboard);
+      }
+
+      function setPortType(type) {
+        currentPortType = type;
+
+        vpnPortBtn.classList.remove("active");
+        cdnPortBtn.classList.remove("active", "cdn-active");
+
+        if (type === "vpn") {
+          vpnPortBtn.classList.add("active");
+          cdnProviderSelector.style.display = "none";
+        } else if (type === "cdn") {
+          cdnPortBtn.classList.add("active", "cdn-active");
+          cdnProviderSelector.style.display = "block";
+        }
+
+        generateRandomPort();
+      }
+
+      function generateRandomPort() {
+        let port;
+
+        if (currentPortType === "cdn") {
+          port = generateCdnPort();
+        } else {
+          port = generateVpnPort();
+        }
+
+        portDisplay.textContent = port;
+        portDisplay.classList.add("pulse");
+
+        updatePortBadge(port);
+        updatePortStatus(port);
+
+        addToHistory(port, currentPortType, currentCdnProvider);
+
+        setTimeout(() => {
+          portDisplay.classList.remove("pulse");
+        }, 500);
+      }
+
+      function generateCdnPort() {
+        const provider = cdnProvidersData[currentCdnProvider];
+
+        if (useAnyPort.checked) {
+          return generateAnyPort();
+        }
+
+        let portList = [];
+
+        if (preferCommonPorts.checked) {
+          portList = [...provider.ports];
+        }
+
+        if (includeAltPorts.checked) {
+          portList = [...portList, ...provider.altPorts];
+        }
+
+        if (portList.length > 0) {
+          let filteredPorts = portList;
+
+          if (avoidStandardPorts.checked) {
+            filteredPorts = filteredPorts.filter(
+              (port) => port !== 80 && port !== 443,
+            );
+          }
+
+          if (filteredPorts.length > 0) {
+            const randomIndex = Math.floor(
+              Math.random() * filteredPorts.length,
+            );
+            return filteredPorts[randomIndex];
+          }
+        }
+
+        return generateAnyPort();
+      }
+
+      function generateAnyPort() {
+        const min = 1024;
+        const max = 65535;
+
+        let port;
+        let attempts = 0;
+        const maxAttempts = 100;
+
+        do {
+          port = Math.floor(Math.random() * (max - min + 1)) + min;
+
+          if (avoidStandardPorts.checked && (port === 80 || port === 443)) {
+            port = (port + 100) % max;
+            if (port < min) port = min;
+          }
+
+          attempts++;
+        } while (
+          avoidStandardPorts.checked &&
+          (port === 80 || port === 443) &&
+          attempts < maxAttempts
+        );
+
+        return port;
+      }
+
+      function generateVpnPort() {
+        let min = 1024;
+        let max = 65535;
+
+        let port;
+        let attempts = 0;
+        const maxAttempts = 100;
+
+        do {
+          port = Math.floor(Math.random() * (max - min + 1)) + min;
+
+          attempts++;
+        } while (attempts < maxAttempts);
+
+        return port;
+      }
+
+      function updatePortBadge(port) {
+        if (currentPortType === "cdn") {
+          portTypeBadge.textContent = `${cdnProvidersData[currentCdnProvider].name} Port`;
+          portTypeBadge.className = "port-type-badge badge-cdn";
+        } else {
+          portTypeBadge.textContent = "VPN Port";
+          portTypeBadge.className = "port-type-badge badge-vpn";
+        }
+      }
+
+      function updatePortStatus(port) {
+        const statusIcon = portStatus.querySelector("i");
+        const statusText = portStatus.querySelector("span");
+
+        if (currentPortType === "cdn") {
+          const provider = cdnProvidersData[currentCdnProvider];
+          statusIcon.className = "fas fa-cloud";
+          statusIcon.style.color = "var(--cdn-color)";
+          statusText.textContent = `${provider.name} ${port === 443 ? "HTTPS" : port === 80 ? "HTTP" : "Port"} ${port}`;
+          portStatus.style.color = "var(--cdn-color)";
+        } else {
+          if (port < 1024) {
+            statusIcon.className = "fas fa-exclamation-triangle";
+            statusIcon.style.color = "var(--warning-color)";
+            statusText.textContent = "System Port - Use with caution";
+            portStatus.style.color = "var(--warning-color)";
+          } else {
+            statusIcon.className = "fas fa-shield-alt";
+            statusIcon.style.color = "var(--primary-color)";
+            statusText.textContent = "VPN Port - Secure connection";
+            portStatus.style.color = "var(--primary-color)";
+          }
+        }
+      }
+
+      function addToHistory(port, type, provider = "") {
+        portHistory.unshift({
+          port: port,
+          type: type,
+          provider: provider,
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        });
+
+        if (portHistory.length > 8) {
+          portHistory.pop();
+        }
+
+        updateHistoryDisplay();
+
+        saveHistory();
+      }
+
+      function updateHistoryDisplay() {
+        historyList.innerHTML = "";
+
+        portHistory.forEach((item, index) => {
+          const historyItem = document.createElement("div");
+          historyItem.className = `history-item ${index === 0 ? "recent" : ""}`;
+
+          let badgeClass, badgeText;
+          if (item.type === "cdn") {
+            badgeClass = "badge-history-cdn";
+            badgeText = item.provider
+              ? cdnProvidersData[item.provider].name.substring(0, 3)
+              : "CDN";
+          } else {
+            badgeClass = "badge-history-vpn";
+            badgeText = "VPN";
+          }
+
+          historyItem.innerHTML = `
+                    <div class="history-badge ${badgeClass}">${badgeText}</div>
+                    <span>${item.port}</span>
+                    <span style="font-size:0.8rem; opacity:0.7;">${item.timestamp}</span>
+                `;
+          historyList.appendChild(historyItem);
+        });
+      }
+
+      function saveHistory() {
+        localStorage.setItem("michPortHistory", JSON.stringify(portHistory));
+      }
+
+      function loadHistory() {
+        const savedHistory = localStorage.getItem("michPortHistory");
+        if (savedHistory) {
+          portHistory = JSON.parse(savedHistory);
+          updateHistoryDisplay();
+        }
+      }
+
+      function copyToClipboard() {
+        const port = portDisplay.textContent;
+        navigator.clipboard.writeText(port).then(() => {
+          copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+          copyBtn.classList.add("copied");
+
+          setTimeout(() => {
+            copyBtn.innerHTML = '<i class="far fa-copy"></i> Copy Port';
+            copyBtn.classList.remove("copied");
+          }, 2000);
+        });
+      }
+
+      if (portHistory.length === 0) {
+        addToHistory(443, "cdn", "cloudflare");
+        addToHistory(8443, "cdn", "fastly");
+        addToHistory(8080, "cdn", "gcore");
+        addToHistory(51820, "vpn", "");
+        addToHistory(2053, "cdn", "cloudflare");
+        addToHistory(1194, "vpn", "");
+      }
+    </script>
+  </body>
+</html>
